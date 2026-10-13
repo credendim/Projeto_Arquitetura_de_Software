@@ -35,16 +35,35 @@
       </symbol>
     </svg>
     <header>
-      <h1>Lista de Filmes</h1>
-      <span class="material-symbols-outlined">add_circle</span>
+      <div class="headerContainer">
+        <h1>Lista de Filmes</h1>
+        <span class="material-symbols-outlined">add_circle</span>
+      </div>
     </header>
     <main>
-      <div class="favoritesContainer">
+      <section class="favoritesContainer">
         <h2>Favoritados</h2>
         <div class="movieContainer">
-          <div class="movieCard">
-            <div class="movieImage">
+          <article class="movieCard">
+            <div class="movieImageContainer">
               <img
+                class="movieImage"
+                src="https://www.themoviedb.org/t/p/w1280/vdvEClt3J8sFWxyMo0Jm7JpouEo.jpg"
+                alt="Capa do filme: Título do Filme"
+              />
+              <svg class="icon">
+                <use href="#star-fill" />
+              </svg>
+            </div>
+            <div class="movieInfo">
+              <h3>Como Treinar o seu Dragão</h3>
+              <p class="subtitle" class="subtitle">120 min</p>
+            </div>
+          </article>
+          <article class="movieCard">
+            <div class="movieImageContainer">
+              <img
+                class="movieImage"
                 src="https://www.themoviedb.org/t/p/w1280/vdvEClt3J8sFWxyMo0Jm7JpouEo.jpg"
                 alt="Capa do filme: Título do Filme"
               />
@@ -54,17 +73,18 @@
             </div>
             <div class="movieInfo">
               <h3>Título do Filme</h3>
-              <p>Duração</p>
+              <p class="subtitle">Duração</p>
             </div>
-          </div>
+          </article>
         </div>
-      </div>
-      <div class="watchedContainer">
-        <h2>Assistidos</h2>
+      </section>
+      <section class="numwatchedContainer">
+        <h2>Não Assistidos</h2>
         <div class="movieContainer">
-          <div class="movieCard">
-            <div class="movieImage">
+          <article class="movieCard">
+            <div class="movieImageContainer">
               <img
+                class="movieImage"
                 src="https://www.themoviedb.org/t/p/w1280/vdvEClt3J8sFWxyMo0Jm7JpouEo.jpg"
                 alt="Capa do filme: Título do Filme"
               />
@@ -74,17 +94,13 @@
             </div>
             <div class="movieInfo">
               <h3>Título do Filme</h3>
-              <p>Duração</p>
+              <p class="subtitle">Duração</p>
             </div>
-          </div>
-        </div>
-      </div>
-      <div class="numWatchedContainer">
-        <h2>Não Assistidos</h2>
-        <div class="movieContainer">
-          <div class="movieCard">
-            <div class="movieImage">
+          </article>
+          <article class="movieCard">
+            <div class="movieImageContainer">
               <img
+                class="movieImage"
                 src="https://www.themoviedb.org/t/p/w1280/vdvEClt3J8sFWxyMo0Jm7JpouEo.jpg"
                 alt="Capa do filme: Título do Filme"
               />
@@ -94,11 +110,96 @@
             </div>
             <div class="movieInfo">
               <h3>Título do Filme</h3>
-              <p>Duração</p>
+              <p class="subtitle">Duração</p>
             </div>
-          </div>
+          </article>
+          <article class="movieCard">
+            <div class="movieImageContainer">
+              <img
+                class="movieImage"
+                src="https://www.themoviedb.org/t/p/w1280/vdvEClt3J8sFWxyMo0Jm7JpouEo.jpg"
+                alt="Capa do filme: Título do Filme"
+              />
+              <svg class="icon">
+                <use href="#star-fill" />
+              </svg>
+            </div>
+            <div class="movieInfo">
+              <h3>Título do Filme</h3>
+              <p class="subtitle">Duração</p>
+            </div>
+          </article>
+          <article class="movieCard">
+            <div class="movieImageContainer">
+              <img
+                class="movieImage"
+                src="https://www.themoviedb.org/t/p/w1280/vdvEClt3J8sFWxyMo0Jm7JpouEo.jpg"
+                alt="Capa do filme: Título do Filme"
+              />
+              <svg class="icon">
+                <use href="#star-fill" />
+              </svg>
+            </div>
+            <div class="movieInfo">
+              <h3>Título do Filme</h3>
+              <p class="subtitle">Duração</p>
+            </div>
+          </article>
+          <article class="movieCard">
+            <div class="movieImageContainer">
+              <img
+                class="movieImage"
+                src="https://www.themoviedb.org/t/p/w1280/vdvEClt3J8sFWxyMo0Jm7JpouEo.jpg"
+                alt="Capa do filme: Título do Filme"
+              />
+              <svg class="icon">
+                <use href="#star-fill" />
+              </svg>
+            </div>
+            <div class="movieInfo">
+              <h3>Título do Filme</h3>
+              <p class="subtitle">Duração</p>
+            </div>
+          </article>
+          <article class="movieCard">
+            <div class="movieImageContainer">
+              <img
+                class="movieImage"
+                src="https://www.themoviedb.org/t/p/w1280/vdvEClt3J8sFWxyMo0Jm7JpouEo.jpg"
+                alt="Capa do filme: Título do Filme"
+              />
+              <svg class="icon">
+                <use href="#star-fill" />
+              </svg>
+            </div>
+            <div class="movieInfo">
+              <h3>Título do Filme</h3>
+              <p class="subtitle">Duração</p>
+            </div>
+          </article>
         </div>
-      </div>
+      </section>
+      <section class="WatchedContainer">
+        <h2>Assistidos</h2>
+        <div class="movieContainer">
+          <article class="movieCard">
+            <div class="movieImageContainer">
+              <img
+                class="movieImage"
+                src="https://www.themoviedb.org/t/p/w1280/vdvEClt3J8sFWxyMo0Jm7JpouEo.jpg"
+                alt="Capa do filme: Título do Filme"
+              />
+              <svg class="icon">
+                <use href="#star-fill" />
+              </svg>
+            </div>
+            <div class="movieInfo">
+              <h3>Título do Filme</h3>
+              <p class="subtitle">Duração</p>
+            </div>
+          </article>
+        </div>
+      </section>
     </main>
   </body>
 </html>
