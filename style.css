@@ -1,0 +1,35 @@
+/* Estilos principais */
+:root {
+  --main-yellow: #ffd52e;
+  --main-white: #f9f9f9;
+  --main-black: #1d1d1f;
+  --main-black-dark: #1c1c1e;
+  --main-gray: #e5e5e5;
+  --main-blue: #007aff;
+}
+
+/* Padronização de estilos */
+
+.material-symbols-outlined {
+  font-variation-settings:
+    "FILL" 0,
+    "wght" 400,
+    "GRAD" 0,
+    "opsz" 24;
+  color: var(--main-yellow);
+}
+
+.icon {
+  color: var(--main-yellow);
+}
+
+body {
+  background-color: var(--main-white);
+  color: var(--main-black);
+}
+
+header {
+  background-color: var(--main-white);
+  color: var(--main-yellow);
+  display: flex;
+}
