@@ -7,6 +7,10 @@
       rel="stylesheet"
       href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=add_circle"
     />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=close"
+    />
     <title>Lista de Filmes</title>
     <link rel="stylesheet" href="style.css" />
   </head>
@@ -33,11 +37,30 @@
           d="M5.354 5.119 7.538.792A.52.52 0 0 1 8 .5c.183 0 .366.097.465.292l2.184 4.327 4.898.696A.54.54 0 0 1 16 6.32a.55.55 0 0 1-.17.445l-3.523 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256a.5.5 0 0 1-.146.05c-.342.06-.668-.254-.6-.642l.83-4.73L.173 6.765a.55.55 0 0 1-.172-.403.6.6 0 0 1 .085-.302.51.51 0 0 1 .37-.245zM8 12.027a.5.5 0 0 1 .232.056l3.686 1.894-.694-3.957a.56.56 0 0 1 .162-.505l2.907-2.77-4.052-.576a.53.53 0 0 1-.393-.288L8.001 2.223 8 2.226z"
         />
       </symbol>
+
+      <symbol id="add-circle" viewBox="0 0 16 16">
+        <path
+          fill="currentColor"
+          d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"
+        />
+        <path
+          fill="currentColor"
+          d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4"
+        />
+      </symbol>
+      <symbol id="close" viewBox="0 0 16 16" strokewidth="2.5">
+        <path
+          fill="currentColor"
+          d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708"
+        />
+      </symbol>
     </svg>
     <header>
       <div class="headerContainer">
         <h1>Lista de Filmes</h1>
-        <span class="material-symbols-outlined">add_circle</span>
+        <svg class="addIcon" onclick="openAddMovieModal()">
+          <use href="#add-circle" />
+        </svg>
       </div>
     </header>
     <main>
@@ -51,7 +74,7 @@
                 src="https://www.themoviedb.org/t/p/w1280/vdvEClt3J8sFWxyMo0Jm7JpouEo.jpg"
                 alt="Capa do filme: Título do Filme"
               />
-              <svg class="icon">
+              <svg class="icon buttons">
                 <use href="#star-fill" />
               </svg>
             </div>
@@ -67,7 +90,7 @@
                 src="https://www.themoviedb.org/t/p/w1280/vdvEClt3J8sFWxyMo0Jm7JpouEo.jpg"
                 alt="Capa do filme: Título do Filme"
               />
-              <svg class="icon">
+              <svg class="icon buttons">
                 <use href="#star-fill" />
               </svg>
             </div>
@@ -88,7 +111,7 @@
                 src="https://www.themoviedb.org/t/p/w1280/vdvEClt3J8sFWxyMo0Jm7JpouEo.jpg"
                 alt="Capa do filme: Título do Filme"
               />
-              <svg class="icon">
+              <svg class="icon buttons">
                 <use href="#star" />
               </svg>
             </div>
@@ -104,7 +127,7 @@
                 src="https://www.themoviedb.org/t/p/w1280/vdvEClt3J8sFWxyMo0Jm7JpouEo.jpg"
                 alt="Capa do filme: Título do Filme"
               />
-              <svg class="icon">
+              <svg class="icon buttons">
                 <use href="#star-fill" />
               </svg>
             </div>
@@ -120,7 +143,7 @@
                 src="https://www.themoviedb.org/t/p/w1280/vdvEClt3J8sFWxyMo0Jm7JpouEo.jpg"
                 alt="Capa do filme: Título do Filme"
               />
-              <svg class="icon">
+              <svg class="icon buttons">
                 <use href="#star-fill" />
               </svg>
             </div>
@@ -136,7 +159,7 @@
                 src="https://www.themoviedb.org/t/p/w1280/vdvEClt3J8sFWxyMo0Jm7JpouEo.jpg"
                 alt="Capa do filme: Título do Filme"
               />
-              <svg class="icon">
+              <svg class="icon buttons">
                 <use href="#star-fill" />
               </svg>
             </div>
@@ -152,7 +175,7 @@
                 src="https://www.themoviedb.org/t/p/w1280/vdvEClt3J8sFWxyMo0Jm7JpouEo.jpg"
                 alt="Capa do filme: Título do Filme"
               />
-              <svg class="icon">
+              <svg class="icon buttons">
                 <use href="#star-fill" />
               </svg>
             </div>
@@ -168,7 +191,7 @@
                 src="https://www.themoviedb.org/t/p/w1280/vdvEClt3J8sFWxyMo0Jm7JpouEo.jpg"
                 alt="Capa do filme: Título do Filme"
               />
-              <svg class="icon">
+              <svg class="icon buttons">
                 <use href="#star-fill" />
               </svg>
             </div>
@@ -189,7 +212,7 @@
                 src="https://www.themoviedb.org/t/p/w1280/vdvEClt3J8sFWxyMo0Jm7JpouEo.jpg"
                 alt="Capa do filme: Título do Filme"
               />
-              <svg class="icon">
+              <svg class="icon buttons">
                 <use href="#star-fill" />
               </svg>
             </div>
@@ -201,5 +224,18 @@
         </div>
       </section>
     </main>
+    <dialog id="movieModal" class="movieModal">
+      <div class="modalHeader">
+        <h1 class="modalTitle">Adicionar Filme</h1>
+        <svg class="modalIcon buttons" onclick="closeModal()">
+          <use href="#close" />
+        </svg>
+      </div>
+      <form class="modalForms">
+        <input type="text" name="titulo" id="titulo" />
+        <button type="submit" class="modalbutton buttons">Adicionar</button>
+      </form>
+    </dialog>
   </body>
+  <script src="script.js"></script>
 </html>
