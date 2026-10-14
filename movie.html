@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Título do Filme</title>
+    <link rel="stylesheet" href="movie.css" />
+  </head>
+  <body>
+    <header>
+      <div class="headerContainer">
+        <h1>Lista de Filmes</h1>
+        <svg class="addIcon" onclick="openAddMovieModal()">
+          <use href="#add-circle" />
+        </svg>
+      </div>
+    </header>
+    <img
+      crossorigin="anonymous"
+      src="https://image.tmdb.org/t/p/w300/vdvEClt3J8sFWxyMo0Jm7JpouEo.jpg"
+      alt="Banner do Filme"
+      class="moviePoster"
+      id="moviePoster"
+    />
+    <div style="width: 100px; height: 100px" id="bannerColor"></div>
+    <h1 class="movieTitle" id="movieTitle">Título do Filme</h1>
+  </body>
+  <script src="https://unpkg.com/fast-average-color/dist/index.browser.min.js"></script>
+  <script src="bannerColor.js"></script>
+</html>
