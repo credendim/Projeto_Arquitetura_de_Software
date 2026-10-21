@@ -1,0 +1,46 @@
+:root {
+  --main-yellow: #ffd52e;
+  --main-white: #f9f9f9;
+  --main-black: #1d1d1f;
+  --secondary-black: #3a3a3c;
+  --main-black-dark: #1c1c1e;
+  --main-gray: #e5e5e5;
+  --main-blue: #007aff;
+  --main-title: var(--main-yellow);
+  --subtitle-color: #8e8e93;
+  --secondary-title: var(--main-black-dark);
+  --text-color: #3a3a3c;
+  --link-color: var(--main-blue);
+}
+
+.addIcon {
+  width: 34px;
+  aspect-ratio: 1/1;
+  color: var(--main-yellow);
+  cursor: pointer;
+}
+
+.addIcon:active {
+  transform: scale(0.9);
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+nav {
+  background-color: var(--main-white);
+  color: var(--main-yellow);
+  width: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1;
+}
+
+.navContainer {
+  height: 75px;
+  max-width: 1000px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}

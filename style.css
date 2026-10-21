@@ -47,42 +47,10 @@ h3 {
   font-weight: normal;
 }
 
-.addIcon {
-  width: 34px;
-  aspect-ratio: 1/1;
-  color: var(--main-yellow);
-  cursor: pointer;
-}
-
-.addIcon:active {
-  transform: scale(0.9);
-  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
 body {
   background-color: var(--main-white);
   color: var(--main-black);
   margin-top: 90px;
-}
-
-header {
-  background-color: var(--main-white);
-  color: var(--main-yellow);
-  width: 100%;
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  z-index: 1;
-}
-
-.headerContainer {
-  height: 75px;
-  max-width: 1000px;
-  margin: 0 auto;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
 }
 
 main {

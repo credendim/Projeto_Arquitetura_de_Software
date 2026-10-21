@@ -8,7 +8,8 @@ function extrairCor() {
   fac
     .getColorAsync(posterImg)
     .then((color) => {
-      bannerHeader.style.backgroundColor = color.rgba;
+      const tranparentColor = `rgba(${color.value[0]}, ${color.value[1]}, ${color.value[2]}, 0.75)`;
+      bannerHeader.style.backgroundColor = tranparentColor;
       bannerTitle.style.color = color.isDark ? "#AAAAAA" : "#000000";
     })
     .catch((e) => {
