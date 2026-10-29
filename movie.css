@@ -226,6 +226,10 @@ figcaption {
   text-align: center;
 }
 
+.indicationContainer {
+  display: flex;
+}
+
 aside {
   padding-left: 15px;
   display: flex;
