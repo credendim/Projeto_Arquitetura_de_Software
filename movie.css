@@ -225,3 +225,27 @@ figure {
 figcaption {
   text-align: center;
 }
+
+aside {
+  padding-left: 15px;
+}
+
+.winnerElement {
+  background-color: var(--main-blue);
+  color: var(--main-white);
+  padding: 2px 10px;
+  border-radius: 100px;
+  box-shadow:
+    0px 1px 2px 0px rgba(0, 0, 0, 0.3),
+    0px 2px 6px 2px rgba(0, 0, 0, 0.15);
+}
+
+.indicatedElement {
+  background-color: var(--main-white);
+  color: var(--main-black);
+  padding: 2px 10px;
+  border-radius: 100px;
+  box-shadow:
+    0px 1px 2px 0px rgba(0, 0, 0, 0.3),
+    0px 2px 6px 2px rgba(0, 0, 0, 0.15);
+}
