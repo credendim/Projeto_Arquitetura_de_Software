@@ -107,26 +107,84 @@ function iniciarBuscaTerminal() {
               // Chama a sua função de detalhes passando o ID do filme escolhido
               const detalhes = await buscarDetalhesFilme(filmeSelecionado.id);
 
+              console.log(detalhes);
+
+              const diretorCru = (detalhes.credits?.crew || []).find(
+                (p) => p.job === "Director",
+              );
+
+              const atores = (detalhes.credits?.cast || []).map((pessoa) => ({
+                nome: pessoa.name,
+                personagem: pessoa.character,
+                tmdbUrl: `https://www.themoviedb.org/person/${pessoa.id}`,
+                fotoUrl: pessoa.profile_path
+                  ? `https://image.tmdb.org/t/p/w200${pessoa.profile_path}`
+                  : null,
+              }));
+
+              const paisBR = (detalhes.release_dates?.results || []).find(
+                (p) => p.iso_3166_1 === "BR",
+              );
+              const certificacao = paisBR?.release_dates?.find(
+                (r) => r.certification,
+              )?.certification;
+
+              const formatar = (valor) =>
+                valor ? valor.toLocaleString("en") : "Não disponível";
+
+              const provedoresBR = detalhes["watch/providers"]?.results?.BR;
+              const primeiroProvedor =
+                provedoresBR?.flatrate?.[0] ||
+                provedoresBR?.rent?.[0] ||
+                provedoresBR?.buy?.[0];
+
               // Passo D: Imprime os detalhes na tela
               console.log(
                 "\n================ DETALHES DO FILME ================",
               );
+              console.log(
+                `Capa de fundo: https://image.tmdb.org/t/p/w500${detalhes.backdrop_path}`,
+              );
+              console.log(
+                `Poster: https://image.tmdb.org/t/p/w200${detalhes.poster_path}`,
+              );
               console.log(`Título: ${detalhes.title}`);
+              console.log(`- ${detalhes.tagline || "Não disponível"} -`);
               console.log(`Título Original: ${detalhes.original_title}`);
-              console.log(`Data de Lançamento: ${detalhes.release_date}`);
-              console.log(`Duração: ${detalhes.runtime} minutos`);
               console.log(
-                `Nota (TMDB): ${detalhes.vote_average.toFixed(1)}/10`,
+                `Data de Lançamento: ${formatarData(detalhes.release_date)} - Duração: ${detalhes.runtime} minutos`,
+              );
+              console.log(`Diretor: ${diretorCru?.name || "Não disponível"}`);
+              console.log(
+                certificacao
+                  ? `Classificação: ${certificacao}`
+                  : "Classificação: Não disponível",
+              );
+              console.log(`\nOrçamento: $${formatar(detalhes.budget)}`);
+              console.log(`Receita: $${formatar(detalhes.revenue)}`);
+              console.log(
+                `\nProvedor de streaming (BR): ${primeiroProvedor?.provider_name || "Não disponível"}`,
               );
               console.log(
-                `Gêneros: ${detalhes.genres.map((g) => g.name).join(", ")}`,
+                `Logo do provedor: https://image.tmdb.org/t/p/w200${primeiroProvedor.logo_path}`,
               );
+              console.log(`Link do provedor: ${provedoresBR?.link || null}`);
               console.log(
                 `\nSinopse:\n${detalhes.overview || "Sinopse não disponível em português."}`,
               );
               console.log(
                 "===================================================\n",
               );
+              console.log("Atores Principais:");
+              atores.forEach((ator, index) => {
+                console.log(
+                  `[${index + 1}] ${ator.nome} como ${ator.personagem}`,
+                );
+                console.log(`    Perfil: ${ator.tmdbUrl}`);
+                console.log(
+                  `    Foto: ${ator.fotoUrl || "Foto não disponível"}`,
+                );
+              });
             } else {
               console.log("Opção inválida. Rode o script novamente.");
             }
@@ -144,3 +202,13 @@ function iniciarBuscaTerminal() {
 
 // Inicia o fluxo
 iniciarBuscaTerminal();
+
+// ============================================================================
+// 3. FORMATAÇÃO DE DADOS
+// ============================================================================
+
+function formatarData(dataIso) {
+  if (!dataIso) return null;
+  const [ano, mes, dia] = dataIso.split("-");
+  return `${dia}/${mes}/${ano}`;
+}
