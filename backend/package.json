@@ -19,6 +19,7 @@
   },
   "homepage": "https://github.com/credendim/Projeto_Arquitetura_de_Software#readme",
   "dependencies": {
+    "@supabase/server": "^1.9.2",
     "axios": "^1.21.0",
     "cors": "^2.8.6",
     "dotenv": "^18.0.9",
