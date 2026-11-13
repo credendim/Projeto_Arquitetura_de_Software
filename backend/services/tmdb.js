@@ -21,7 +21,7 @@ async function buscarFilme(titulo) {
   }
 
   const dados = await resposta.json();
-  return dados.results.slice(0, 5); // Retorna apenas os 5 primeiros
+  return dados.results.slice(0, 10); // Retorna apenas os 5 primeiros
 }
 
 async function buscarDetalhesFilme(id) {
@@ -145,15 +145,18 @@ function iniciarBuscaTerminal() {
               );
 
               console.log("Atores Principais:");
-              atores(detalhes).forEach((ator, index) => {
-                console.log(
-                  `[${index + 1}] ${ator.nome} como ${ator.personagem}`,
-                );
-                console.log(`    Perfil: ${ator.tmdbUrl}`);
-                console.log(
-                  `    Foto: ${ator.fotoUrl || "Foto não disponível"}`,
-                );
-              });
+              atores(detalhes)
+                .slice(0, 15)
+                .forEach((ator, index) => {
+                  console.log(
+                    `[${index + 1}] ${ator.nome} como ${ator.personagem}`,
+                  );
+                  console.log(`    Perfil: ${ator.tmdbUrl}`);
+                  console.log(
+                    `    Foto: ${ator.fotoUrl || "Foto não disponível"}`,
+                  );
+                  console.log(`    ID: ${ator.id}`);
+                });
 
               rl.question(
                 "\nDeseja salvar o filme no banco de dados? (1 para Sim, 0 para Não): ",
@@ -179,7 +182,18 @@ function iniciarBuscaTerminal() {
                         (r) => r.certification,
                       )?.certification;
 
+                      const atoresParaSalvar = atores(detalhes)
+                        .slice(0, 15)
+                        .map((pessoa) => ({
+                          nome: pessoa.nome,
+                          foto: pessoa.fotoUrl,
+                          perfil: pessoa.tmdbUrl,
+                          id_tmdb: pessoa.id,
+                          personagem: pessoa.personagem,
+                        }));
+
                       const dadosParaSalvar = {
+                        idfilme: detalhes.id,
                         titulo: detalhes.title,
                         frase: detalhes.tagline || null,
                         lancamento: detalhes.release_date || null,
@@ -204,6 +218,7 @@ function iniciarBuscaTerminal() {
                         comentario: null,
                         is_assistido: false,
                         is_favorito: false,
+                        atores: atoresParaSalvar,
                       };
 
                       const respostaEndpoint = await fetch(
@@ -287,6 +302,7 @@ function atores(detalhes) {
     fotoUrl: pessoa.profile_path
       ? `https://image.tmdb.org/t/p/w200${pessoa.profile_path}`
       : null,
+    id: pessoa.id,
   }));
   return atores || [];
 }
