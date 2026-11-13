@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Título do Filme</title>
+    <title id="webtittle">Título do Filme</title>
     <link rel="stylesheet" href="movie.css" />
     <link rel="stylesheet" href="nav.css" />
   </head>
@@ -49,195 +49,26 @@
     </svg>
     <nav>
       <div class="navContainer">
-        <h1>Lista de Filmes</h1>
+        <h1>< Lista de Filmes</h1>
         <svg class="addIcon" onclick="openAddMovieModal()">
           <use href="#add-circle" />
         </svg>
       </div>
     </nav>
     <main>
-      <header class="movieHeader">
-        <div class="movieBackground">
-          <img
-            crossorigin="anonymous"
-            src="https://image.tmdb.org/t/p/w1066_and_h600_face/ovZasZ9EeZcp6UsrElkQ63hFCd.jpg"
-            alt="Banner do Filme"
-            class="movieBanner"
-            id="movieBanner"
-          />
-          <div class="bannerColor" id="bannerColor"></div>
-        </div>
-        <div class="movieInfo">
-          <img
-            crossorigin="anonymous"
-            src="https://image.tmdb.org/t/p/w300/vdvEClt3J8sFWxyMo0Jm7JpouEo.jpg"
-            alt="Banner do Filme"
-            class="moviePoster"
-            id="moviePoster"
-          />
-          <div class="movieText">
-            <div class="titleAndPrhase">
-              <h1 class="aa" id="movieTitle">Título do Filme</h1>
-              <p class="moviePhrase subtittle" id="moviePhrase">
-                Frase de efeito
-              </p>
-            </div>
-            <div class="dateAndDuration inlineText">
-              <p class="movieDate" id="movieDate">21/10/2026</p>
-              <p class="movieDate" id="movieDate">&bull;</p>
-              <p class="movieDuration" id="movieDuration">120 min</p>
-            </div>
-            <div class="Director inlineText">
-              <p class="movieDirector bold" id="movieDirector">Diretor:</p>
-              <p class="directorName" id="directorName">Nome do Diretor</p>
-            </div>
-          </div>
-        </div>
+      <header class="movieHeader" id="movieHeader">
+        <div class="movieInfo" id="movieInfo"></div>
       </header>
       <div class="movieContainer">
         <div class="movieInfoContainer">
-          <section class="sinopse borderTop">
+          <section class="sinopse borderTop" id="sinopse">
             <h2>Sinopse:</h2>
-            <p>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed
-              eleifend nec turpis a suscipit. Proin malesuada pharetra augue, et
-              ornare ligula ullamcorper a. Phasellus eu metus quis mauris
-              gravida tristique eu a dolor. Class aptent taciti sociosqu ad
-              litora torquent per conubia nostra, per inceptos himenaeos.
-              Integer lorem sem, mollis vel fermentum id, tincidunt ut est.
-            </p>
+            <p class="sinopseText" id="sinopseText"></p>
           </section>
           <section id="actors" class="borderTop marginTop">
             <h2>Atores:</h2>
             <div class="actorscontainer">
-              <ul id="actorsList" class="actorsList">
-                <li id="actorsListItem">
-                  <figure id="actorFigure">
-                    <img
-                      src="https://image.tmdb.org/t/p/w300/SfoR8rDtlacuxAHa3mRUfHChEf.jpg"
-                      alt="actor image"
-                      id="actorImg"
-                      class="actorImg"
-                    />
-                    <figcaption>
-                      <strong id="actorName">Nome do Ator</strong>
-                      <span id="character">Personagem</span>
-                    </figcaption>
-                  </figure>
-                </li>
-                <li id="actorsListItem">
-                  <figure id="actorFigure">
-                    <img
-                      src="https://image.tmdb.org/t/p/w300/gt0NJClVSCPCEfcPgcLj3f85uLa.jpg"
-                      alt="actor image"
-                      id="actorImg"
-                      class="actorImg"
-                    />
-                    <figcaption>
-                      <strong id="actorName">Nome do Ator</strong>
-                      <span id="character">Personagem</span>
-                    </figcaption>
-                  </figure>
-                </li>
-                <li id="actorsListItem">
-                  <figure id="actorFigure">
-                    <img
-                      src="https://image.tmdb.org/t/p/w300/i54XoxYieuff2w6MwyfwVUBvmR0.jpg"
-                      alt="actor image"
-                      id="actorImg"
-                      class="actorImg"
-                    />
-                    <figcaption>
-                      <strong id="actorName">Nome do Ator</strong>
-                      <span id="character">Personagem</span>
-                    </figcaption>
-                  </figure>
-                </li>
-                <li id="actorsListItem">
-                  <figure id="actorFigure">
-                    <img
-                      src="https://image.tmdb.org/t/p/w300/2CHS4t6miNGLgMQAjhFqb4fFuKS.jpg"
-                      alt="actor image"
-                      id="actorImg"
-                      class="actorImg"
-                    />
-                    <figcaption>
-                      <strong id="actorName">Nome do Ator</strong>
-                      <span id="character">Personagem</span>
-                    </figcaption>
-                  </figure>
-                </li>
-                <li id="actorsListItem">
-                  <figure id="actorFigure">
-                    <img
-                      src="https://image.tmdb.org/t/p/w300/u3PTI9FlrpGFZVMoHXZZBiYWMCl.jpg"
-                      alt="actor image"
-                      id="actorImg"
-                      class="actorImg"
-                    />
-                    <figcaption>
-                      <strong id="actorName">Nome do Ator</strong>
-                      <span id="character">Personagem</span>
-                    </figcaption>
-                  </figure>
-                </li>
-                <li id="actorsListItem">
-                  <figure id="actorFigure">
-                    <img
-                      src="https://image.tmdb.org/t/p/w300/zSFwaT2osi7D2G0vFetub4yCDwi.jpg"
-                      alt="actor image"
-                      id="actorImg"
-                      class="actorImg"
-                    />
-                    <figcaption>
-                      <strong id="actorName">Nome do Ator</strong>
-                      <span id="character">Personagem</span>
-                    </figcaption>
-                  </figure>
-                </li>
-                <li id="actorsListItem">
-                  <figure id="actorFigure">
-                    <img
-                      src="https://image.tmdb.org/t/p/w300/zSFwaT2osi7D2G0vFetub4yCDwi.jpg"
-                      alt="actor image"
-                      id="actorImg"
-                      class="actorImg"
-                    />
-                    <figcaption>
-                      <strong id="actorName">Nome do Ator</strong>
-                      <span id="character">Personagem</span>
-                    </figcaption>
-                  </figure>
-                </li>
-                <li id="actorsListItem">
-                  <figure id="actorFigure">
-                    <img
-                      src="https://image.tmdb.org/t/p/w300/zSFwaT2osi7D2G0vFetub4yCDwi.jpg"
-                      alt="actor image"
-                      id="actorImg"
-                      class="actorImg"
-                    />
-                    <figcaption>
-                      <strong id="actorName">Nome do Ator</strong>
-                      <span id="character">Personagem</span>
-                    </figcaption>
-                  </figure>
-                </li>
-                <li id="actorsListItem">
-                  <figure id="actorFigure">
-                    <img
-                      src="https://image.tmdb.org/t/p/w300/zSFwaT2osi7D2G0vFetub4yCDwi.jpg"
-                      alt="actor image"
-                      id="actorImg"
-                      class="actorImg"
-                    />
-                    <figcaption>
-                      <strong id="actorName">Nome do Ator</strong>
-                      <span id="character">Personagem</span>
-                    </figcaption>
-                  </figure>
-                </li>
-              </ul>
+              <ul id="actorsList" class="actorsList"></ul>
               <div class="rightGradient" id="rightGradient"></div>
             </div>
           </section>
@@ -245,14 +76,19 @@
             <section>
               <h2>Onde Assistir:</h2>
               <img
-                src="https://image.tmdb.org/t/p/w200/pvske1MyAoymrs5bguRfVqYiM9a.jpg"
-                alt=""
+                alt="Logo do Provedor de Streaming"
                 class="indicationImg"
+                id="streamingProviderImg"
               />
             </section>
             <section>
               <h2>Classificação Indicativa:</h2>
-              <img src="assets/img/L.png" alt="" class="indicationImg" />
+              <img
+                src="assets/img/L.png"
+                alt="Classificação Indicativa"
+                class="indicationImg"
+                id="certificationImg"
+              />
             </section>
           </div>
           <div class="userInteraction borderTop marginTop">
@@ -296,17 +132,17 @@
         </div>
         <div class="movieAwardContainer">
           <aside>
-            <div class="asideInfo">
+            <div class="asideInfo" id="originalLanguageContainer">
               <h3>Idioma Original</h3>
-              <p>Inglês</p>
+              <p id="originalLanguage"></p>
             </div>
-            <div class="asideInfo">
+            <div class="asideInfo" id="budgetContainer">
               <h3>Orçamento</h3>
-              <p>$165,000,000</p>
+              <p id="budget"></p>
             </div>
-            <div class="asideInfo">
+            <div class="asideInfo" id="revenueContainer">
               <h3>Receita</h3>
-              <p>$111,111,111</p>
+              <p id="revenue"></p>
             </div>
             <div class="asideInfo">
               <h3>Premiações</h3>
@@ -329,6 +165,7 @@
     </main>
   </body>
   <script src="https://unpkg.com/fast-average-color/dist/index.browser.min.js"></script>
-  <script src="bannerColor.js"></script>
+  <!-- <script src="bannerColor.js"></script> -->
   <script src="scroll.js"></script>
+  <script src="movie.js"></script>
 </html>
