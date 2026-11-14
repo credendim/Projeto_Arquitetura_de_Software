@@ -6,7 +6,8 @@
     <title id="webtittle">Título do Filme</title>
     <link rel="stylesheet" href="movie.css" />
     <link rel="stylesheet" href="nav.css" />
-    <link rel="stylesheet" href="loader.css" /
+    <link rel="stylesheet" href="loader.css" />
+    <link rel="icon" type="image/png" href="./assets/img/icon.png" />
   </head>
   <body class="loading">
     <div class="loader" id="loader">
@@ -111,7 +112,6 @@
           />
         </g>
       </svg>
-
       <p class="notFoundCode">404</p>
       <h2 class="notFoundTitle">Filme não encontrado</h2>
       <p class="notFoundText">
@@ -120,6 +120,38 @@
       <a href="index.html" class="homeButton">Voltar para a tela inicial</a>
     </div>
     <svg class="icons" style="display: none">
+      <symbol id="eye-slash" viewBox="0 0 16 16">
+        <path
+          fill="currentColor"
+          d="M13.359 11.238C15.06 9.72 16 8 16 8s-3-5.5-8-5.5a7 7 0 0 0-2.79.588l.77.771A6 6 0 0 1 8 3.5c2.12 0 3.879 1.168 5.168 2.457A13 13 0 0 1 14.828 8q-.086.13-.195.288c-.335.48-.83 1.12-1.465 1.755q-.247.248-.517.486z"
+        />
+        <path
+          fill="currentColor"
+          d="M11.297 9.176a3.5 3.5 0 0 0-4.474-4.474l.823.823a2.5 2.5 0 0 1 2.829 2.829zm-2.943 1.299.822.822a3.5 3.5 0 0 1-4.474-4.474l.823.823a2.5 2.5 0 0 0 2.829 2.829"
+        />
+        <path
+          fill="currentColor"
+          d="M3.35 5.47q-.27.24-.518.487A13 13 0 0 0 1.172 8l.195.288c.335.48.83 1.12 1.465 1.755C4.121 11.332 5.881 12.5 8 12.5c.716 0 1.39-.133 2.02-.36l.77.772A7 7 0 0 1 8 13.5C3 13.5 0 8 0 8s.939-1.721 2.641-3.238l.708.709zm10.296 8.884-12-12 .708-.708 12 12z"
+        />
+      </symbol>
+
+      <symbol id="eye-fill" viewBox="0 0 16 16">
+        <path
+          fill="currentColor"
+          d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0"
+        />
+        <path
+          fill="currentColor"
+          d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8m8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7"
+        />
+      </symbol>
+
+      <symbol id="trash" viewBox="0 0 16 16">
+        <path
+          fill="currentColor"
+          d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5M11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47M8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5"
+        />
+      </symbol>
       <symbol id="star" viewBox="0 0 16 16">
         <path
           fill="currentColor"
@@ -161,9 +193,40 @@
     <nav>
       <div class="navContainer">
         <h1><a href="index.html">&lt; Lista de Filmes</a></h1>
-        <svg class="addIcon" onclick="openAddMovieModal()">
-          <use href="#add-circle" />
-        </svg>
+
+        <div class="navActions">
+          <button
+            type="button"
+            class="navButton"
+            id="botaoAssistido"
+            aria-label="Assistido"
+            aria-pressed="false"
+            title="Marcar como assistido"
+          >
+            <svg class="actionIcon"><use href="#eye-slash" /></svg>
+          </button>
+
+          <button
+            type="button"
+            class="navButton"
+            id="botaoFavorito"
+            aria-label="Favorito"
+            aria-pressed="false"
+            title="Adicionar aos favoritos"
+          >
+            <svg class="actionIcon"><use href="#star" /></svg>
+          </button>
+
+          <button
+            type="button"
+            class="navButton"
+            id="botaoDeletar"
+            aria-label="Deletar filme"
+            title="Deletar filme"
+          >
+            <svg class="actionIcon"><use href="#trash" /></svg>
+          </button>
+        </div>
       </div>
     </nav>
     <main>
@@ -255,25 +318,117 @@
               <h3>Receita</h3>
               <p id="revenue"></p>
             </div>
-            <div class="asideInfo">
+            <div class="asideInfo" id="awardsContainer">
               <h3>Premiações</h3>
-              <div class="awards">
-                <div class="awardInfo">
-                  <span class="awardElement winner">Vencedor</span>
-                  <p class="awardName">Best Animated Feature</p>
-                  <p>(oscar)</p>
-                </div>
-                <div class="awardInfo">
-                  <span class="awardElement indicated">Indicado</span>
-                  <p class="awardName">Best Original Score</p>
-                  <p>(oscar)</p>
-                </div>
-              </div>
+              <svg
+                class="maintenance"
+                viewBox="0 0 280 150"
+                role="img"
+                aria-label="Premiações em manutenção"
+              >
+                <defs>
+                  <pattern
+                    id="hazardStripes"
+                    width="14"
+                    height="14"
+                    patternUnits="userSpaceOnUse"
+                    patternTransform="rotate(45)"
+                  >
+                    <rect width="7" height="14" fill="#1d1d1f" />
+                  </pattern>
+                  <g id="tapeBand">
+                    <rect
+                      x="-60"
+                      y="63"
+                      width="400"
+                      height="30"
+                      fill="#000"
+                      opacity=".18"
+                    />
+                    <rect
+                      x="-60"
+                      y="60"
+                      width="400"
+                      height="30"
+                      fill="#ffd52e"
+                    />
+                    <rect
+                      x="-60"
+                      y="60"
+                      width="400"
+                      height="6"
+                      fill="url(#hazardStripes)"
+                    />
+                    <rect
+                      x="-60"
+                      y="84"
+                      width="400"
+                      height="6"
+                      fill="url(#hazardStripes)"
+                    />
+                  </g>
+                </defs>
+
+                <!-- Cartão "bloqueado" com linhas cinzas no lugar das premiações -->
+                <rect
+                  x="8"
+                  y="12"
+                  width="264"
+                  height="126"
+                  rx="18"
+                  fill="#fff"
+                  stroke="#e5e5e5"
+                  stroke-width="2"
+                />
+                <g fill="#e5e5e5">
+                  <rect x="26" y="32" width="62" height="18" rx="9" />
+                  <rect x="98" y="34" width="124" height="9" rx="4.5" />
+                  <rect x="98" y="48" width="64" height="7" rx="3.5" />
+                  <rect x="26" y="94" width="62" height="18" rx="9" />
+                  <rect x="98" y="96" width="104" height="9" rx="4.5" />
+                  <rect x="98" y="110" width="52" height="7" rx="3.5" />
+                </g>
+
+                <!-- Duas fitas cruzadas -->
+                <g transform="rotate(-14 140 75)">
+                  <use href="#tapeBand" />
+                  <text
+                    x="222"
+                    y="79"
+                    text-anchor="middle"
+                    font-family="'Arial Black', 'Helvetica Neue', Arial, sans-serif"
+                    font-size="10"
+                    font-weight="900"
+                    fill="#1d1d1f"
+                    textLength="92"
+                    lengthAdjust="spacingAndGlyphs"
+                  >
+                    EM MANUTENÇÃO
+                  </text>
+                </g>
+                <g transform="rotate(14 140 75)">
+                  <use href="#tapeBand" />
+                  <text
+                    x="58"
+                    y="79"
+                    text-anchor="middle"
+                    font-family="'Arial Black', 'Helvetica Neue', Arial, sans-serif"
+                    font-size="10"
+                    font-weight="900"
+                    fill="#1d1d1f"
+                    textLength="92"
+                    lengthAdjust="spacingAndGlyphs"
+                  >
+                    EM MANUTENÇÃO
+                  </text>
+                </g>
+              </svg>
             </div>
           </aside>
         </div>
       </div>
     </main>
+    <div class="toast" id="toast" role="status" hidden></div>
   </body>
   <script src="https://unpkg.com/fast-average-color/dist/index.browser.min.js"></script>
   <script src="loader.js"></script>

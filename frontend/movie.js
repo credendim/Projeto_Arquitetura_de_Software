@@ -65,10 +65,14 @@ function renderizarHeader(filme, idElemento) {
 
   function aplicarCores(fundo, textoClaro) {
     bannerHeader.style.backgroundColor = fundo;
-    const corTexto = textoClaro ? "#f9f9f9" : "#000000";
-    title.style.color = corTexto;
-    headerTexts.forEach((el) => (el.style.color = corTexto));
-    subtittle.style.color = textoClaro ? "#d4d4d4" : "#000000";
+    header.style.setProperty(
+      "--header-text",
+      textoClaro ? "#f9f9f9" : "#000000",
+    );
+    header.style.setProperty(
+      "--header-subtext",
+      textoClaro ? "#d4d4d4" : "#000000",
+    );
   }
 
   function extrairCor(url) {
@@ -195,6 +199,7 @@ function esconderLoader() {
 
 function mostrarNotFound() {
   document.getElementById("notFound").classList.remove("hidden");
+  document.querySelector(".navActions").style.display = "none";
   document.body.classList.add("loading"); // trava a rolagem por trás
 }
 
@@ -212,6 +217,7 @@ async function buscarDetalhes() {
     const resposta = await fetch(`${API_URL}/detalhes/${id}`);
     if (!resposta.ok) throw new Error(`Erro ${resposta.status}`);
     const detalhes = await resposta.json();
+    renderizarAcoes(detalhes);
 
     renderizarTituloPagina(detalhes);
     const corPronta = renderizarHeader(detalhes, "movieHeader");
@@ -235,6 +241,170 @@ async function buscarDetalhes() {
     if (naoEncontrado) mostrarNotFound(); // revela a tela 404 por baixo
   }
 }
+
+// ---------- Aviso na tela ----------
+
+let timerToast = null;
+
+function mostrarToast(texto) {
+  const toast = document.getElementById("toast");
+  toast.textContent = texto;
+  toast.hidden = false;
+
+  clearTimeout(timerToast);
+  timerToast = setTimeout(() => (toast.hidden = true), 3500);
+}
+
+// ---------- Requisições ----------
+
+// status 0 = sem conexão com o servidor; senão, o status HTTP da resposta
+async function requisitar(url, opcoes) {
+  let resposta;
+
+  try {
+    resposta = await fetch(url, opcoes);
+  } catch {
+    const semConexao = new Error(
+      "Não foi possível conectar ao servidor. Tente novamente em instantes.",
+    );
+    semConexao.status = 0;
+    throw semConexao;
+  }
+
+  if (!resposta.ok) {
+    const erro = new Error(`Erro ${resposta.status}`);
+    erro.status = resposta.status;
+    throw erro;
+  }
+
+  return resposta;
+}
+
+// ---------- Assistido / Favorito ----------
+
+let filmeAtual = null;
+const emAndamento = new Set(); // ações com PATCH em andamento
+
+const ACOES = {
+  assistido: {
+    botao: document.getElementById("botaoAssistido"),
+    campo: "is_assistido",
+    rota: "assistido",
+    iconeAtivo: "#eye-fill",
+    iconeInativo: "#eye-slash",
+    rotuloAtivo: "Marcar como não assistido",
+    rotuloInativo: "Marcar como assistido",
+    erro: "Não foi possível atualizar o status de assistido. Tente novamente.",
+  },
+  favorito: {
+    botao: document.getElementById("botaoFavorito"),
+    campo: "is_favorito",
+    rota: "favorito",
+    iconeAtivo: "#star-fill",
+    iconeInativo: "#star",
+    rotuloAtivo: "Remover dos favoritos",
+    rotuloInativo: "Adicionar aos favoritos",
+    erro: "Não foi possível atualizar o favorito. Tente novamente.",
+  },
+};
+
+function atualizarBotao(acao, ativo) {
+  acao.botao
+    .querySelector("use")
+    .setAttribute("href", ativo ? acao.iconeAtivo : acao.iconeInativo);
+  acao.botao.setAttribute("aria-pressed", ativo);
+  acao.botao.title = ativo ? acao.rotuloAtivo : acao.rotuloInativo;
+}
+
+// Chamada uma vez, quando os dados do filme chegam
+function renderizarAcoes(filme) {
+  filmeAtual = filme;
+  Object.values(ACOES).forEach((acao) =>
+    atualizarBotao(acao, Boolean(filme[acao.campo])),
+  );
+}
+
+function aplicarEstado(nome, valor) {
+  const acao = ACOES[nome];
+  filmeAtual[acao.campo] = valor;
+  atualizarBotao(acao, valor);
+}
+
+async function alternarEstado(nome) {
+  if (!filmeAtual || emAndamento.has(nome)) return; // ignora cliques repetidos
+  emAndamento.add(nome);
+
+  const acao = ACOES[nome];
+  const novoValor = !filmeAtual[acao.campo];
+  aplicarEstado(nome, novoValor); // atualiza a tela na hora
+
+  try {
+    await requisitar(`${API_URL}/${acao.rota}/${filmeAtual.idfilme}`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ [acao.campo]: novoValor }),
+    });
+  } catch (erro) {
+    console.error(`Erro ao atualizar ${acao.campo}:`, erro);
+    aplicarEstado(nome, !novoValor); // desfaz
+    mostrarToast(erro.status === 0 ? erro.message : acao.erro);
+  } finally {
+    emAndamento.delete(nome);
+  }
+}
+
+Object.keys(ACOES).forEach((nome) => {
+  ACOES[nome].botao.addEventListener("click", () => alternarEstado(nome));
+});
+
+// ---------- Deletar ----------
+
+const botaoDeletar = document.getElementById("botaoDeletar");
+let deletando = false;
+
+async function deletarFilme() {
+  if (deletando) return;
+
+  const id = new URLSearchParams(window.location.search).get("id");
+
+  if (!id) {
+    window.location.href = "index.html";
+    return;
+  }
+
+  if (
+    !confirm(
+      "Deletar este filme da sua lista? Essa ação não pode ser desfeita.",
+    )
+  ) {
+    return;
+  }
+
+  deletando = true;
+  botaoDeletar.disabled = true;
+
+  try {
+    await requisitar(`${API_URL}/deletar/${id}`, { method: "DELETE" });
+    window.location.href = "index.html";
+  } catch (erro) {
+    // 404 = o filme já não existe mais: o objetivo foi cumprido
+    if (erro.status === 404) {
+      window.location.href = "index.html";
+      return;
+    }
+
+    console.error("Erro ao deletar filme:", erro);
+    mostrarToast(
+      erro.status === 0
+        ? erro.message
+        : "Não foi possível deletar o filme. Tente novamente.",
+    );
+    deletando = false;
+    botaoDeletar.disabled = false;
+  }
+}
+
+botaoDeletar.addEventListener("click", deletarFilme);
 
 // ============================================================================
 // FORMATAÇÃO DE DADOS

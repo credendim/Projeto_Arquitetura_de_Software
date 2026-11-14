@@ -13,13 +13,19 @@
   --link-color: var(--main-blue);
 }
 
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
 body {
   margin-top: 75px;
   background-color: var(--main-white);
 }
 
 main {
-  max-width: 1000px;
+  width: min(1000px, calc(100% - 40px));
   margin: 0 auto;
   display: flex;
   flex-direction: column;
@@ -119,6 +125,12 @@ a {
   transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
+.actionIcon {
+  width: 2rem;
+  aspect-ratio: 1 / 1;
+  color: var(--main-yellow);
+}
+
 .subtittle {
   font-size: 0.9rem;
   font-weight: 400;
@@ -199,15 +211,9 @@ a {
 
 .movieContainer {
   margin-top: 130px;
-  display: flex;
-}
-
-.movieInfoContainer {
-  max-width: 70%;
-}
-
-.movieAwardContainer {
-  max-width: 30%;
+  display: grid;
+  grid-template-columns: minmax(0, 7fr) minmax(0, 3fr); /* mesmos 70% / 30% de antes */
+  align-items: start;
 }
 
 .actorsList {
@@ -396,38 +402,181 @@ aside {
   gap: 7px;
 }
 
-.awardElement {
-  padding: 2px 10px;
-  border-radius: 100px;
-  width: fit-content;
-  box-shadow:
-    0px 1px 2px 0px rgba(0, 0, 0, 0.3),
-    0px 2px 6px 2px rgba(0, 0, 0, 0.15);
-  box-sizing: border-box;
-  display: inline;
+.maintenance {
+  display: block;
+  width: 100%;
+  max-width: 280px;
+  height: auto;
 }
 
-.winner {
-  background-color: var(--main-blue);
-  color: var(--main-white);
+/* Cor do texto do header: sobre o banner usa a cor calculada pelo JS */
+#movieTitle,
+.headderText {
+  color: var(--header-text, var(--main-white));
 }
 
-.indicated {
-  background-color: var(--main-white);
-  color: var(--main-black);
+.headderSubtittle {
+  color: var(--header-subtext, #d4d4d4);
 }
 
-.awards {
+/* ---------- Responsivo ---------- */
+@media (max-width: 1000px) {
+  .movieHeader {
+    --poster-overlap: 70px; /* quanto da capa sobe sobre o banner */
+  }
+
+  .movieBackground {
+    border-radius: 20px;
+    overflow: hidden;
+  }
+
+  /* Capa e informações descem para baixo do banner */
+  .movieInfo {
+    position: relative;
+    top: auto;
+    left: auto;
+    align-items: flex-start;
+    margin-top: calc(var(--poster-overlap) * -1);
+    padding: 0 20px;
+  }
+
+  .movieText {
+    padding-top: calc(var(--poster-overlap) + 12px);
+  }
+
+  /* O texto agora está sobre o fundo da página, não sobre o banner */
+  #movieTitle,
+  .headderText {
+    color: var(--main-black);
+  }
+
+  .headderSubtittle {
+    color: var(--text-color);
+  }
+
+  /* Coluna única: o aside sobe para antes da "Nota" */
+  .movieContainer {
+    margin-top: 24px;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* Os blocos internos viram itens do .movieContainer e podem ser reordenados */
+  .movieInfoContainer {
+    display: contents;
+  }
+
+  .movieAwardContainer {
+    order: 1;
+    margin-top: 0.75rem;
+    padding-top: 1rem;
+    border-top: var(--subtitle-color) solid 1px;
+  }
+
+  .userInteraction {
+    order: 2;
+  }
+
+  /* Informações do aside em linha */
+  aside {
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 16px 40px;
+    padding-left: 0;
+  }
+
+  #awardsContainer {
+    flex: 1 1 260px;
+    max-width: 300px;
+  }
+}
+
+/* Celulares */
+@media (max-width: 600px) {
+  h1 {
+    font-size: 1.6rem;
+  }
+
+  .movieInfo {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .movieText {
+    padding-top: 0;
+    align-items: center;
+  }
+
+  .inlineText {
+    justify-content: center;
+  }
+
+  .moviePoster {
+    max-width: 150px;
+  }
+
+  .actorImg {
+    width: 110px;
+  }
+}
+
+/* ---------- Ações da nav (assistido, favorito, deletar) ---------- */
+.navActions {
   display: flex;
-  flex-direction: column;
-  gap: 0.75rem;
+  align-items: center;
+  gap: 16px;
 }
 
-.awardInfo > p {
-  display: inline;
-  line-height: 1.3rem;
+.navButton {
+  display: grid;
+  place-items: center;
+  padding: 0;
+  border: none;
+  background: none;
+  color: inherit;
+  line-height: 0;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.awardName {
-  font-weight: 800;
+.navButton:hover,
+.navButton:focus-visible {
+  transform: scale(1.15);
+}
+
+.navButton:active {
+  transform: scale(0.9);
+}
+
+/* Aparece só ao navegar com Tab, não ao clicar com o mouse */
+.navButton:focus-visible {
+  outline: 2px solid var(--main-blue);
+  outline-offset: 4px;
+  border-radius: 8px;
+}
+
+.navButton:disabled {
+  opacity: 0.5;
+  cursor: wait;
+}
+
+/* ---------- Aviso na tela ---------- */
+.toast {
+  position: fixed;
+  left: 50%;
+  bottom: 24px;
+  transform: translateX(-50%);
+  z-index: 2000;
+  max-width: min(420px, 90vw);
+  padding: 12px 20px;
+  border-radius: 14px;
+  background-color: var(--main-black);
+  color: var(--main-white);
+  font-size: 0.95rem;
+  text-align: center;
+  box-shadow:
+    0px 4px 4px 0px rgba(0, 0, 0, 0.3),
+    0px 8px 12px 6px rgba(0, 0, 0, 0.15);
 }
