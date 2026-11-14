@@ -153,12 +153,14 @@ a {
 
 .movieBanner {
   display: block;
+  border-radius: 20px;
   aspect-ratio: 10 / 3;
   object-fit: cover;
   width: 100%;
 }
 
 .bannerColor {
+  border-radius: 20px;
   position: absolute;
   z-index: 1;
   width: 100%;
@@ -176,6 +178,7 @@ a {
 }
 
 .moviePoster {
+  border-radius: 20px;
   aspect-ratio: 2 / 3;
   max-width: 200px;
   box-shadow:
@@ -426,7 +429,6 @@ aside {
   }
 
   .movieBackground {
-    border-radius: 20px;
     overflow: hidden;
   }
 
@@ -477,9 +479,26 @@ aside {
     order: 2;
   }
 
+  .indicationContainer {
+    width: 100%;
+  }
+
+  .movieAwardContainer {
+    width: 100%;
+  }
+
+  #actors {
+    width: 100%;
+  }
+
+  .rightGradient {
+    right: -1px;
+  }
+
   /* Informações do aside em linha */
   aside {
     flex-direction: row;
+    justify-content: space-between;
     flex-wrap: wrap;
     gap: 16px 40px;
     padding-left: 0;
@@ -513,6 +532,7 @@ aside {
   }
 
   .moviePoster {
+    border-radius: 20px;
     max-width: 150px;
   }
 
