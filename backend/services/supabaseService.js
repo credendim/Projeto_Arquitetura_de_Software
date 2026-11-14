@@ -2,7 +2,6 @@ const supabase = require("../config/supabaseClient"); // Arquivo que conecta usa
 
 async function salvarFilmeCompleto(dados) {
   const { atores, ...dadosDoFilme } = dados;
-  console.log("ATORES RECEBIDOS:", atores?.length);
 
   const { data: filmeSalvo, error: erroFilme } = await supabase
     .from("filme")
@@ -10,48 +9,61 @@ async function salvarFilmeCompleto(dados) {
     .select()
     .single();
 
-  if (erroFilme) throw new Error(`Erro ao salvar filme: ${erroFilme.message}`);
-  console.log("FILME SALVO:", filmeSalvo);
-  const idFilmeGerado = filmeSalvo.idfilme;
+  if (erroFilme) {
+    const duplicado = erroFilme.code === "23505"; // chave única violada: o filme já existe
+    const erro = new Error(
+      duplicado
+        ? "Este filme já está na sua lista"
+        : `Erro ao salvar filme: ${erroFilme.message}`,
+    );
+    erro.status = duplicado ? 409 : 500;
+    throw erro;
+  }
 
-  if (atores && atores.length > 0) {
-    const atoresParaSalvar = atores.map((a) => ({
-      nome: a.nome,
-      foto: a.foto,
-      perfil: a.perfil,
-      id_tmdb: a.id_tmdb,
-    }));
-
-    const { data: atoresNoBanco, error: erroAtor } = await supabase
-      .from("ator")
-      .upsert(atoresParaSalvar, { onConflict: "id_tmdb" })
-      .select();
-
-    console.log("UPSERT ATOR ->", { erroAtor, qtd: atoresNoBanco?.length });
-    if (erroAtor) throw new Error(`Erro ao salvar atores: ${erroAtor.message}`);
-
-    const elencoParaSalvar = atoresNoBanco.map((atorSalvo) => {
-      const atorOriginal = atores.find((a) => a.id_tmdb === atorSalvo.id_tmdb);
-      return {
-        idfilme: idFilmeGerado,
-        idator: atorSalvo.idator,
-        personagem: atorOriginal?.personagem,
-      };
-    });
-    console.log("ELENCO A SALVAR:", elencoParaSalvar.slice(0, 15));
-
-    const { error: erroElenco } = await supabase
-      .from("elenco")
-      .insert(elencoParaSalvar);
-
-    console.log("ERROR INSERT ELENCO ->", erroElenco);
-    if (erroElenco)
-      throw new Error(`Erro ao vincular elenco: ${erroElenco.message}`);
-  } else {
-    console.log("Nenhum ator para salvar");
+  try {
+    await salvarElenco(filmeSalvo.idfilme, atores);
+  } catch (erro) {
+    // Desfaz o filme para não ficar salvo sem elenco
+    await supabase.from("elenco").delete().eq("idfilme", filmeSalvo.idfilme);
+    await supabase.from("filme").delete().eq("idfilme", filmeSalvo.idfilme);
+    throw erro;
   }
 
   return filmeSalvo;
+}
+
+async function salvarElenco(idFilme, atores) {
+  if (!atores || atores.length === 0) return;
+
+  const atoresParaSalvar = atores.map((a) => ({
+    nome: a.nome,
+    foto: a.foto,
+    perfil: a.perfil,
+    id_tmdb: a.id_tmdb,
+  }));
+
+  const { data: atoresNoBanco, error: erroAtor } = await supabase
+    .from("ator")
+    .upsert(atoresParaSalvar, { onConflict: "id_tmdb" })
+    .select();
+
+  if (erroAtor) throw new Error(`Erro ao salvar atores: ${erroAtor.message}`);
+
+  const elencoParaSalvar = atoresNoBanco.map((atorSalvo) => {
+    const atorOriginal = atores.find((a) => a.id_tmdb === atorSalvo.id_tmdb);
+    return {
+      idfilme: idFilme,
+      idator: atorSalvo.idator,
+      personagem: atorOriginal?.personagem,
+    };
+  });
+
+  const { error: erroElenco } = await supabase
+    .from("elenco")
+    .insert(elencoParaSalvar);
+
+  if (erroElenco)
+    throw new Error(`Erro ao vincular elenco: ${erroElenco.message}`);
 }
 
 async function listarFilmesBanco() {

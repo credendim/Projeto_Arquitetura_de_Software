@@ -14,10 +14,20 @@
     <title>Lista de Filmes</title>
     <link rel="stylesheet" href="style.css" />
     <link rel="stylesheet" href="nav.css" />
+    <link rel="stylesheet" href="loader.css" />
   </head>
-  <body>
+  <body class="loading">
+    <div class="loader" id="loader">
+      <div class="spinner"></div>
+    </div>
     <!-- Declarando SVG's -->
     <svg class="icons" style="display: none">
+      <symbol id="search" viewBox="0 0 16 16">
+        <path
+          fill="currentColor"
+          d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"
+        />
+      </symbol>
       <symbol id="star" viewBox="0 0 16 16">
         <path
           fill="currentColor"
@@ -87,11 +97,29 @@
           <use href="#close" />
         </svg>
       </div>
-      <form class="modalForms">
-        <input type="text" name="titulo" id="titulo" />
-        <button type="submit" class="modalbutton buttons">Adicionar</button>
+      <form class="modalForms" id="searchForm" autocomplete="off">
+        <div class="searchBox" id="searchBox">
+          <svg class="searchIcon"><use href="#search" /></svg>
+          <input type="text" name="titulo" id="titulo" />
+          <ul class="searchResults" id="searchResults" hidden></ul>
+        </div>
+
+        <div
+          class="selectedMovie"
+          id="selectedMovie"
+          title="Clique para escolher outro filme"
+          hidden
+        ></div>
+
+        <p class="modalMessage" id="modalMessage" role="alert" hidden></p>
+
+        <button type="button" class="modalbutton buttons" id="addButton">
+          Adicionar
+        </button>
       </form>
     </dialog>
+    <div class="toast" id="toast" role="status" hidden></div>
   </body>
+  <script src="loader.js"></script>
   <script src="script.js"></script>
 </html>

@@ -1,0 +1,37 @@
+body.loading {
+  overflow: hidden; /* impede rolar a página por trás do loader */
+}
+
+.loader {
+  position: fixed;
+  inset: 0;
+  z-index: 1000; /* acima da nav (z-index: 100) */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--main-white);
+  transition:
+    opacity 0.4s ease,
+    visibility 0.4s ease;
+}
+
+.loader.hidden {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.spinner {
+  width: 48px;
+  height: 48px;
+  border: 5px solid var(--main-gray);
+  border-top-color: var(--main-yellow);
+  border-radius: 50%;
+  animation: girar 0.8s linear infinite;
+}
+
+@keyframes girar {
+  to {
+    transform: rotate(360deg);
+  }
+}

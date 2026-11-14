@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const filmeController = require("../controllers/filmeController");
+const tmdbController = require("../controllers/tmdbController");
 
 // Quando o frontend fizer um POST para /api/filmes/adicionar, chama o controller
 router.post("/adicionar", filmeController.adicionarFilme);
@@ -15,5 +16,9 @@ router.delete("/deletar/:id", filmeController.deletarFilme);
 router.patch("/favorito/:id", filmeController.atualizarFavorito);
 
 router.patch("/assistido/:id", filmeController.atualizarAssistido);
+
+router.get("/tmdb/buscar", tmdbController.buscarFilmes);
+
+router.get("/tmdb/detalhes/:id", tmdbController.detalhesFilme);
 
 module.exports = router;

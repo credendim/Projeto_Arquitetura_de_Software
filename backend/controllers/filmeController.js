@@ -11,7 +11,7 @@ async function adicionarFilme(req, res) {
       .status(201)
       .json({ mensagem: "Filme salvo com sucesso!", filme: novoFilme });
   } catch (erro) {
-    res.status(500).json({ erro: erro.message });
+    res.status(erro.status || 500).json({ erro: erro.message });
   }
 }
 

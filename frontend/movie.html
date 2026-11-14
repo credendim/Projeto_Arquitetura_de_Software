@@ -6,8 +6,119 @@
     <title id="webtittle">Título do Filme</title>
     <link rel="stylesheet" href="movie.css" />
     <link rel="stylesheet" href="nav.css" />
+    <link rel="stylesheet" href="loader.css" /
   </head>
-  <body>
+  <body class="loading">
+    <div class="loader" id="loader">
+      <div class="spinner"></div>
+    </div>
+    <div class="loader not-found hidden" id="notFound">
+      <svg
+        class="notFoundImg"
+        viewBox="20 60 330 170"
+        role="img"
+        aria-label="Balde de pipoca caído com pipocas espalhadas"
+      >
+        <defs>
+          <clipPath id="bucketClip">
+            <path d="M-60,-60 L60,-60 L42,60 L-42,60 Z" />
+          </clipPath>
+          <g id="popcornKernel">
+            <circle cx="-6" cy="2" r="5.5" />
+            <circle cx="6" cy="3" r="5.5" />
+            <circle cx="0" cy="-4" r="6" />
+            <circle cx="1" cy="4" r="6.5" />
+            <circle cx="1" cy="1" r="2.2" fill="#ffd52e" stroke="none" />
+          </g>
+        </defs>
+        <ellipse cx="190" cy="214" rx="150" ry="11" fill="#000" opacity=".08" />
+        <g transform="translate(250 150) rotate(-78)">
+          <g clip-path="url(#bucketClip)">
+            <rect x="-60" y="-60" width="120" height="120" fill="#fff8e7" />
+            <rect x="-60" y="-60" width="20" height="120" fill="#e63946" />
+            <rect x="-20" y="-60" width="20" height="120" fill="#e63946" />
+            <rect x="20" y="-60" width="20" height="120" fill="#e63946" />
+          </g>
+          <path
+            d="M-60,-60 L60,-60 L42,60 L-42,60 Z"
+            fill="none"
+            stroke="#c1121f"
+            stroke-width="3"
+            stroke-linejoin="round"
+          />
+          <rect x="-66" y="-72" width="132" height="16" rx="8" fill="#c1121f" />
+        </g>
+        <g fill="#fff6cf" stroke="#f0cf6b" stroke-width="1.2">
+          <use
+            href="#popcornKernel"
+            transform="translate(168 196) scale(1.5)"
+          />
+          <use
+            href="#popcornKernel"
+            transform="translate(146 201) scale(1.3) rotate(30)"
+          />
+          <use
+            href="#popcornKernel"
+            transform="translate(124 199) scale(1.2) rotate(70)"
+          />
+          <use href="#popcornKernel" transform="translate(104 204) scale(1)" />
+          <use
+            href="#popcornKernel"
+            transform="translate(82 200) scale(1.1) rotate(15)"
+          />
+          <use
+            href="#popcornKernel"
+            transform="translate(60 205) scale(.9) rotate(50)"
+          />
+          <use href="#popcornKernel" transform="translate(42 202) scale(.8)" />
+          <use
+            href="#popcornKernel"
+            transform="translate(160 176) scale(1.3) rotate(20)"
+          />
+          <use
+            href="#popcornKernel"
+            transform="translate(138 185) scale(1.1) rotate(60)"
+          />
+          <use href="#popcornKernel" transform="translate(114 189) scale(1)" />
+          <use
+            href="#popcornKernel"
+            transform="translate(92 192) scale(.9) rotate(40)"
+          />
+          <use
+            href="#popcornKernel"
+            transform="translate(172 154) scale(1.2) rotate(10)"
+          />
+          <use
+            href="#popcornKernel"
+            transform="translate(150 162) scale(1) rotate(80)"
+          />
+          <use
+            href="#popcornKernel"
+            transform="translate(178 132) scale(1.1) rotate(35)"
+          />
+          <use
+            href="#popcornKernel"
+            transform="translate(122 148) scale(1) rotate(20)"
+          />
+          <use
+            href="#popcornKernel"
+            transform="translate(94 128) scale(.9) rotate(65)"
+          />
+          <use href="#popcornKernel" transform="translate(66 164) scale(.8)" />
+          <use
+            href="#popcornKernel"
+            transform="translate(140 118) scale(.8) rotate(10)"
+          />
+        </g>
+      </svg>
+
+      <p class="notFoundCode">404</p>
+      <h2 class="notFoundTitle">Filme não encontrado</h2>
+      <p class="notFoundText">
+        Parece que a pipoca caiu e esse filme se perdeu pelo caminho.
+      </p>
+      <a href="index.html" class="homeButton">Voltar para a tela inicial</a>
+    </div>
     <svg class="icons" style="display: none">
       <symbol id="star" viewBox="0 0 16 16">
         <path
@@ -49,7 +160,7 @@
     </svg>
     <nav>
       <div class="navContainer">
-        <h1>< Lista de Filmes</h1>
+        <h1><a href="index.html">&lt; Lista de Filmes</a></h1>
         <svg class="addIcon" onclick="openAddMovieModal()">
           <use href="#add-circle" />
         </svg>
@@ -165,7 +276,7 @@
     </main>
   </body>
   <script src="https://unpkg.com/fast-average-color/dist/index.browser.min.js"></script>
-  <!-- <script src="bannerColor.js"></script> -->
+  <script src="loader.js"></script>
   <script src="scroll.js"></script>
   <script src="movie.js"></script>
 </html>

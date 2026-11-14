@@ -1,5 +1,3 @@
-const API_URL = "http://localhost:3000/api/filmes";
-
 function renderizarTituloPagina(filme) {
   const webtittle = document.getElementById("webtittle");
   webtittle.textContent =
@@ -74,26 +72,33 @@ function renderizarHeader(filme, idElemento) {
   }
 
   function extrairCor(url) {
-    const imgCor = new Image();
-    imgCor.crossOrigin = "anonymous";
-    imgCor.onload = () => {
-      fac
-        .getColorAsync(imgCor)
-        .then((c) => {
-          aplicarCores(
-            `rgba(${c.value[0]}, ${c.value[1]}, ${c.value[2]}, 0.75)`,
-            c.isDark,
-          );
-        })
-        .catch(() => aplicarCores("rgba(29, 29, 31, 0.75)", true));
-    };
-    // se o CORS falhar, o poster continua aparecendo; só a cor vira padrão
-    imgCor.onerror = () => aplicarCores("rgba(29, 29, 31, 0.75)", true);
-    imgCor.src = url;
+    return new Promise((resolve) => {
+      const imgCor = new Image();
+      imgCor.crossOrigin = "anonymous";
+      imgCor.onload = () => {
+        fac
+          .getColorAsync(imgCor)
+          .then((c) => {
+            aplicarCores(
+              `rgba(${c.value[0]}, ${c.value[1]}, ${c.value[2]}, 0.75)`,
+              c.isDark,
+            );
+          })
+          .catch(() => aplicarCores("rgba(29, 29, 31, 0.75)", true))
+          .finally(resolve);
+      };
+      imgCor.onerror = () => {
+        aplicarCores("rgba(29, 29, 31, 0.75)", true);
+        resolve();
+      };
+      imgCor.src = url;
+    });
   }
 
-  if (filme.capa) extrairCor(filme.capa);
-  else aplicarCores("rgba(29, 29, 31, 0.75)", true);
+  if (filme.capa) return extrairCor(filme.capa);
+
+  aplicarCores("rgba(29, 29, 31, 0.75)", true);
+  return Promise.resolve();
 }
 
 function renderizarSinopse(filme) {
@@ -144,19 +149,12 @@ function renderizarReprodutor(filme) {
 }
 
 function renderizarClassificacao(filme) {
-  const streamingProviderImg = document.getElementById("certificationImg");
-  if (filme.classificacao === "L") {
-    streamingProviderImg.src = "assets/img/L.png";
-  } else if (filme.classificacao === "10") {
-    streamingProviderImg.src = "assets/img/10.png";
-  } else if (filme.classificacao === "12") {
-    streamingProviderImg.src = "assets/img/12.png";
-  } else if (filme.classificacao === "14") {
-    streamingProviderImg.src = "assets/img/14.png";
-  } else if (filme.classificacao === "16") {
-    streamingProviderImg.src = "assets/img/16.png";
-  } else if (filme.classificacao === "18") {
-    streamingProviderImg.src = "assets/img/18.png";
+  const img = document.getElementById("certificationImg");
+  const validas = ["L", "10", "12", "14", "16", "18"];
+  if (validas.includes(filme.classificacao)) {
+    img.src = `assets/img/${filme.classificacao}.png`;
+  } else {
+    img.closest("section").style.display = "none";
   }
 }
 
@@ -170,8 +168,9 @@ function renderizarInformações(filme) {
   const revenue = document.getElementById("revenue");
   const revenueContainer = document.getElementById("revenueContainer");
 
-  originalLanguage.textContent =
-    filme.idioma_original || "Idioma não informado";
+  originalLanguage.textContent = filme.idioma_original
+    ? nomeIdioma(filme.idioma_original)
+    : "Idioma não informado";
   budget.textContent = filme.orcamento
     ? `$${filme.orcamento.toLocaleString()}`
     : "Orçamento não informado";
@@ -183,23 +182,57 @@ function renderizarInformações(filme) {
   revenueContainer.style.display = filme.receita ? "" : "none";
 }
 
-async function buscarDetalhes(filmeId) {
+const API_URL = "http://localhost:3000/api/filmes";
+
+function esconderLoader() {
+  const loader = document.getElementById("loader");
+  document.body.classList.remove("loading");
+  loader.classList.add("hidden");
+  loader.addEventListener("transitionend", () => loader.remove(), {
+    once: true,
+  });
+}
+
+function mostrarNotFound() {
+  document.getElementById("notFound").classList.remove("hidden");
+  document.body.classList.add("loading"); // trava a rolagem por trás
+}
+
+async function buscarDetalhes() {
+  const id = new URLSearchParams(window.location.search).get("id");
+
+  if (!id) {
+    window.location.href = "index.html";
+    return;
+  }
+
+  let naoEncontrado = false;
+
   try {
-    const resposta = await fetch(`${API_URL}/detalhes/${filmeId}`);
+    const resposta = await fetch(`${API_URL}/detalhes/${id}`);
     if (!resposta.ok) throw new Error(`Erro ${resposta.status}`);
     const detalhes = await resposta.json();
 
-    console.log(detalhes);
-
     renderizarTituloPagina(detalhes);
-    renderizarHeader(detalhes, "movieHeader");
+    const corPronta = renderizarHeader(detalhes, "movieHeader");
     renderizarSinopse(detalhes);
     renderizarListaAtor(detalhes.elenco || [], "actorsList");
     renderizarReprodutor(detalhes);
     renderizarClassificacao(detalhes);
     renderizarInformações(detalhes);
+
+    await Promise.race([
+      Promise.all([corPronta, esperarImagens()]),
+      new Promise((resolve) => setTimeout(resolve, 8000)),
+    ]);
+
+    verificarNevoa();
   } catch (erro) {
-    console.error("Não foi possível carregar os detalhes do filme:", erro);
+    console.error("Erro ao carregar filme:", erro);
+    naoEncontrado = true;
+  } finally {
+    esconderLoader(); // faz o fade do spinner
+    if (naoEncontrado) mostrarNotFound(); // revela a tela 404 por baixo
   }
 }
 
@@ -213,4 +246,16 @@ function formatarData(dataIso) {
   return `${dia}/${mes}/${ano}`;
 }
 
-buscarDetalhes(597);
+function nomeIdioma(codigo) {
+  try {
+    const idioma = new Intl.DisplayNames(["pt-BR"], { type: "language" }).of(
+      codigo,
+    );
+    idiomaFormatado = idioma.charAt(0).toUpperCase() + idioma.slice(1);
+    return idiomaFormatado;
+  } catch {
+    return codigo;
+  }
+}
+
+buscarDetalhes();

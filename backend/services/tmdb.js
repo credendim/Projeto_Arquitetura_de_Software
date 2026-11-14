@@ -1,45 +1,6 @@
 require("dotenv").config();
 const readline = require("readline");
-
-// ============================================================================
-// 1. SUAS FUNÇÕES DE SERVIÇO (Adaptadas para usar a chave v3 do .env)
-// ============================================================================
-
-async function buscarFilme(titulo) {
-  const url = new URL("https://api.themoviedb.org/3/search/movie");
-  url.searchParams.set("query", titulo);
-  url.searchParams.set("language", "pt-BR");
-
-  const resposta = await fetch(url, {
-    headers: {
-      Authorization: `Bearer ${process.env.TMDB_API_KEY}`,
-    },
-  });
-
-  if (!resposta.ok) {
-    throw new Error(`Erro ao buscar na TMDB: ${resposta.status}`);
-  }
-
-  const dados = await resposta.json();
-  return dados.results.slice(0, 10); // Retorna apenas os 5 primeiros
-}
-
-async function buscarDetalhesFilme(id) {
-  // A chave v3 é injetada na URL da requisição de detalhes
-  const url = `https://api.themoviedb.org/3/movie/${id}?language=pt-BR&append_to_response=credits,videos,watch/providers,release_dates`;
-
-  const resposta = await fetch(url, {
-    headers: {
-      Authorization: `Bearer ${process.env.TMDB_API_KEY}`,
-    },
-  });
-
-  if (!resposta.ok) {
-    throw new Error(`Erro ao buscar detalhes na TMDB: ${resposta.status}`);
-  }
-
-  return await resposta.json();
-}
+const { buscarFilme, buscarDetalhesFilme } = require("./tmdbService");
 
 // ============================================================================
 // 2. INTERFACE DO TERMINAL (CLI)
