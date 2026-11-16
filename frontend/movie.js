@@ -116,6 +116,7 @@ function criarCardAtor(filme) {
   const card = document.createElement("li");
   card.id = "actorsListItem";
   card.innerHTML = `
+  <a id="linkAtor">
     <figure id="actorFigure">
       <img
         alt="actor image"
@@ -127,6 +128,7 @@ function criarCardAtor(filme) {
         <span id="character"></span>
       </figcaption>
     </figure>
+    </a>
   `;
 
   // textContent/src/alt em vez de innerHTML, para não injetar HTML vindo do banco
@@ -137,6 +139,7 @@ function criarCardAtor(filme) {
     filme.ator.nome || "Nome do ator não informado";
   card.querySelector("#character").textContent =
     filme.personagem || "Personagem não informado";
+    card.querySelector("#linkAtor").href = filme.ator.perfil;
 
   return card;
 }
