@@ -90,6 +90,39 @@ async function atualizarAssistido(req, res) {
   }
 }
 
+async function atualizarNota(req, res) {
+  try {
+    const { nota } = req.body;
+    const filme = await supabaseService.atualizarNota(req.params.id, nota);
+
+    if (!filme) {
+      return res.status(404).json({ erro: "Filme não encontrado" });
+    }
+
+    res.json({ mensagem: "Nota atualizada", filme });
+  } catch (err) {
+    res.status(400).json({ erro: err.message });
+  }
+}
+
+async function atualizarComentario(req, res) {
+  try {
+    const { comentario } = req.body;
+    const filme = await supabaseService.atualizarComentario(
+      req.params.id,
+      comentario,
+    );
+
+    if (!filme) {
+      return res.status(404).json({ erro: "Filme não encontrado" });
+    }
+
+    res.json({ mensagem: "Comentário atualizado", filme });
+  } catch (err) {
+    res.status(400).json({ erro: err.message });
+  }
+}
+
 module.exports = {
   adicionarFilme,
   listarFilmes,
@@ -97,4 +130,6 @@ module.exports = {
   deletarFilme,
   atualizarFavorito,
   atualizarAssistido,
+  atualizarNota,
+  atualizarComentario,
 };

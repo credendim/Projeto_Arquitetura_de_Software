@@ -206,6 +206,64 @@ async function atualizarAssistido(id, isAssistido) {
   return data; // filme atualizado, ou null se o id não existir
 }
 
+async function atualizarNota(id, nota) {
+  const idFilme = Number(id);
+
+  if (!Number.isInteger(idFilme) || idFilme <= 0) {
+    throw new Error("ID de filme inválido");
+  }
+
+  if (typeof nota !== "number" || nota < 0 || nota > 5) {
+    throw new Error("Nota deve ser um número entre 0 e 5");
+  }
+
+  const { data, error } = await supabase
+    .from("filme")
+    .update({ nota: nota })
+    .eq("idfilme", idFilme)
+    .select("idfilme, titulo, nota")
+    .maybeSingle();
+
+  console.log("ATUALIZAR NOTA ->", {
+    idFilme,
+    nota,
+    error,
+    atualizado: !!data,
+  });
+  if (error) throw new Error(`Erro ao atualizar nota: ${error.message}`);
+
+  return data; // filme atualizado, ou null se o id não existir
+}
+
+async function atualizarComentario(id, comentario) {
+  const idFilme = Number(id);
+
+  if (!Number.isInteger(idFilme) || idFilme <= 0) {
+    throw new Error("ID de filme inválido");
+  }
+
+  if (typeof comentario !== "string" || comentario.trim() === "") {
+    throw new Error("Comentário deve ser uma string não vazia");
+  }
+
+  const { data, error } = await supabase
+    .from("filme")
+    .update({ comentario: comentario })
+    .eq("idfilme", idFilme)
+    .select("idfilme, titulo, comentario")
+    .maybeSingle();
+
+  console.log("ATUALIZAR COMENTÁRIO ->", {
+    idFilme,
+    comentario,
+    error,
+    atualizado: !!data,
+  });
+  if (error) throw new Error(`Erro ao atualizar comentário: ${error.message}`);
+
+  return data; // filme atualizado, ou null se o id não existir
+}
+
 module.exports = {
   salvarFilmeCompleto,
   listarFilmesBanco,
@@ -213,4 +271,6 @@ module.exports = {
   deletarFilme,
   atualizarFavorito,
   atualizarAssistido,
+  atualizarNota,
+  atualizarComentario,
 };

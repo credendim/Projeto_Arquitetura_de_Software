@@ -59,7 +59,7 @@ function renderizarHeader(filme, idElemento) {
     ? `${filme.duracao} min`
     : "Duração não informada";
   directorName.textContent = filme.diretor || "Diretor não informado";
-  imgPoster.src = filme.capa || "";
+  imgPoster.src = filme.capa || "assets/img/NoPoster.png";
 
   const headerTexts = header.querySelectorAll(".headderText");
 
@@ -131,7 +131,7 @@ function criarCardAtor(filme) {
 
   // textContent/src/alt em vez de innerHTML, para não injetar HTML vindo do banco
   const img = card.querySelector(".actorImg");
-  img.src = filme.ator.foto || "";
+  img.src = filme.ator.foto || "assets/img/Noimage.png";
   img.alt = `Foto do ator: ${filme.ator.nome || "Nome do ator não informado"}`;
   card.querySelector("#actorName").textContent =
     filme.ator.nome || "Nome do ator não informado";

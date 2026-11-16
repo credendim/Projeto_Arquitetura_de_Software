@@ -152,11 +152,14 @@ function mostrarMensagem(texto) {
 }
 
 function criarPoster(filme) {
-  const poster = document.createElement(filme.capa ? "img" : "div");
+  const poster = document.createElement(filme.capa ? "img" : "img");
   poster.className = "searchPoster";
 
   if (filme.capa) {
     poster.src = filme.capa;
+    poster.alt = `Capa do filme: ${filme.titulo}`;
+  } else {
+    poster.src = "assets/img/NoPoster.png";
     poster.alt = `Capa do filme: ${filme.titulo}`;
   }
 
@@ -521,7 +524,7 @@ function criarCard(filme) {
 
   // textContent/src/alt em vez de innerHTML, para não injetar HTML vindo do banco
   const img = link.querySelector(".movieImage");
-  img.src = filme.capa || "";
+  img.src = filme.capa || "img/NoPoster.png";
   img.alt = `Capa do filme: ${filme.titulo}`;
   link.querySelector("h3").textContent = filme.titulo;
   link.querySelector(".subtitle").textContent = filme.duracao
