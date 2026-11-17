@@ -600,3 +600,19 @@ aside {
     0px 4px 4px 0px rgba(0, 0, 0, 0.3),
     0px 8px 12px 6px rgba(0, 0, 0, 0.15);
 }
+
+.stars {
+  display: flex;
+  gap: 4px;
+  width: fit-content;
+}
+
+.starRating {
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.confirm:disabled {
+  opacity: 0.6;
+  cursor: wait;
+}

@@ -269,37 +269,22 @@
             <section class="rating">
               <div class="userInteractionTextContainer">
                 <h2 class="userInteractionText">Nota:</h2>
-                <p class="userInteractionText">4.5 / 5</p>
+                <p class="userInteractionText" id="notaTexto">Sem nota</p>
               </div>
-              <div class="stars">
-                <svg class="icon buttons">
-                  <use href="#star-fill" />
-                </svg>
-                <svg class="icon buttons">
-                  <use href="#star-fill" />
-                </svg>
-                <svg class="icon buttons">
-                  <use href="#star-fill" />
-                </svg>
-                <svg class="icon buttons">
-                  <use href="#star-fill" />
-                </svg>
-                <svg class="icon buttons">
-                  <use href="#star-fill" />
-                </svg>
-              </div>
+              <div class="stars" id="stars" role="img" aria-label="Nota"></div>
             </section>
             <section class="commentArea">
               <h2>Comentário</h2>
               <textarea
                 class="comment"
-                name=""
-                id=""
+                id="comentario"
                 placeholder="Seu comentário aqui..."
               ></textarea>
               <div class="commentButtons">
-                <button class="delete">Deletar</button>
-                <button class="confirm">Confirmar</button>
+                <button type="button" class="delete">Deletar</button>
+                <button type="button" class="confirm" id="botaoConfirmar">
+                  Confirmar
+                </button>
               </div>
             </section>
           </div>

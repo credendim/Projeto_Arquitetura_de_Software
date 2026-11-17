@@ -24,7 +24,7 @@ router.patch("/assistido/:id", filmeController.atualizarAssistido);
 
 router.patch("/nota/:id", filmeController.atualizarNota);
 
-router.patch("comentario/:id", filmeController.atualizarComentario);
+router.patch("/comentario/:id", filmeController.atualizarComentario);
 
 // DELETE
 router.delete("/deletar/:id", filmeController.deletarFilme);

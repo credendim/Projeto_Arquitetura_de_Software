@@ -213,8 +213,13 @@ async function atualizarNota(id, nota) {
     throw new Error("ID de filme inválido");
   }
 
-  if (typeof nota !== "number" || nota < 0 || nota > 5) {
-    throw new Error("Nota deve ser um número entre 0 e 5");
+  if (
+    typeof nota !== "number" ||
+    nota < 0 ||
+    nota > 5 ||
+    !Number.isInteger(nota * 2)
+  ) {
+    throw new Error("Nota deve ser um número entre 0 e 5, de 0,5 em 0,5");
   }
 
   const { data, error } = await supabase

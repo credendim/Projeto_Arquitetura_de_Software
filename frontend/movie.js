@@ -139,7 +139,7 @@ function criarCardAtor(filme) {
     filme.ator.nome || "Nome do ator não informado";
   card.querySelector("#character").textContent =
     filme.personagem || "Personagem não informado";
-    card.querySelector("#linkAtor").href = filme.ator.perfil;
+  card.querySelector("#linkAtor").href = filme.ator.perfil;
 
   return card;
 }
@@ -221,6 +221,10 @@ async function buscarDetalhes() {
     if (!resposta.ok) throw new Error(`Erro ${resposta.status}`);
     const detalhes = await resposta.json();
     renderizarAcoes(detalhes);
+
+    renderizarAcoes(detalhes);
+    renderizarNota(detalhes);
+    renderizarComentario(detalhes);
 
     renderizarTituloPagina(detalhes);
     const corPronta = renderizarHeader(detalhes, "movieHeader");
@@ -408,6 +412,146 @@ async function deletarFilme() {
 }
 
 botaoDeletar.addEventListener("click", deletarFilme);
+
+// ---------- Nota (estrelas de 0,5 em 0,5) ----------
+
+const estrelasContainer = document.getElementById("stars");
+const textoNota = document.getElementById("notaTexto");
+
+estrelasContainer.innerHTML = Array.from(
+  { length: 5 },
+  () => `<svg class="icon starRating"><use href="#star" /></svg>`,
+).join("");
+
+const estrelasNota = [...estrelasContainer.querySelectorAll(".starRating")];
+
+let notaSalva = 0;
+let notaExibida = null;
+let salvandoNota = false;
+
+// Desenha as 5 estrelas para um valor: inteira, meia ou vazia
+function desenharEstrelas(valor) {
+  if (valor === notaExibida) return; // evita redesenhar a cada pixel do mouse
+  notaExibida = valor;
+
+  estrelasNota.forEach((estrela, i) => {
+    const numero = i + 1;
+    let icone = "#star";
+    if (valor >= numero) icone = "#star-fill";
+    else if (valor >= numero - 0.5) icone = "#star-half";
+    estrela.querySelector("use").setAttribute("href", icone);
+  });
+
+  textoNota.textContent = valor > 0 ? `${valor} / 5` : "Sem nota";
+  estrelasContainer.setAttribute("aria-label", `Nota: ${valor} de 5`);
+}
+
+// Metade esquerda da estrela = meia estrela; metade direita = estrela inteira
+function valorDoPonteiro(evento, indice) {
+  const rect = evento.currentTarget.getBoundingClientRect();
+  const naMetadeEsquerda = evento.clientX < rect.left + rect.width / 2;
+  return indice + (naMetadeEsquerda ? 0.5 : 1);
+}
+
+async function definirNota(valor) {
+  if (salvandoNota || valor === notaSalva) return;
+  salvandoNota = true;
+
+  const notaAnterior = notaSalva;
+  notaSalva = valor;
+  desenharEstrelas(valor); // atualiza na hora
+
+  try {
+    await requisitar(`${API_URL}/nota/${filmeAtual.idfilme}`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ nota: valor }),
+    });
+  } catch (erro) {
+    console.error("Erro ao salvar nota:", erro);
+    notaSalva = notaAnterior;
+    desenharEstrelas(notaAnterior); // desfaz
+    mostrarToast(
+      erro.status === 0
+        ? erro.message
+        : "Não foi possível salvar a nota. Tente novamente.",
+    );
+  } finally {
+    salvandoNota = false;
+  }
+}
+
+estrelasNota.forEach((estrela, indice) => {
+  estrela.addEventListener("mousemove", (evento) => {
+    desenharEstrelas(valorDoPonteiro(evento, indice)); // prévia ao passar o mouse
+  });
+
+  // O valor é calculado no clique (e não pela prévia), então também funciona no celular
+  estrela.addEventListener("click", (evento) => {
+    definirNota(valorDoPonteiro(evento, indice));
+  });
+});
+
+// Saiu das estrelas: volta para a nota salva
+estrelasContainer.addEventListener("mouseleave", () => {
+  desenharEstrelas(notaSalva);
+});
+
+function renderizarNota(filme) {
+  notaSalva = Number(filme.nota) || 0; // null (sem nota) vira 0
+  desenharEstrelas(notaSalva);
+}
+
+// ---------- Comentário ----------
+
+const campoComentario = document.getElementById("comentario");
+const botaoConfirmar = document.getElementById("botaoConfirmar");
+let salvandoComentario = false;
+
+// .value é a forma certa de preencher um textarea pelo JS
+function renderizarComentario(filme) {
+  campoComentario.value = filme.comentario || "";
+}
+
+async function salvarComentario() {
+  if (salvandoComentario) return;
+
+  const texto = campoComentario.value.trim();
+
+  if (!texto) {
+    mostrarToast("Escreva um comentário antes de confirmar.");
+    campoComentario.focus();
+    return;
+  }
+
+  salvandoComentario = true;
+  botaoConfirmar.disabled = true;
+  botaoConfirmar.textContent = "Salvando...";
+
+  try {
+    await requisitar(`${API_URL}/comentario/${filmeAtual.idfilme}`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ comentario: texto }),
+    });
+
+    campoComentario.value = texto; // sem espaços sobrando nas pontas
+    mostrarToast("Comentário salvo!");
+  } catch (erro) {
+    console.error("Erro ao salvar comentário:", erro);
+    mostrarToast(
+      erro.status === 0
+        ? erro.message
+        : "Não foi possível salvar o comentário. Tente novamente.",
+    );
+  } finally {
+    salvandoComentario = false;
+    botaoConfirmar.disabled = false;
+    botaoConfirmar.textContent = "Confirmar";
+  }
+}
+
+botaoConfirmar.addEventListener("click", salvarComentario);
 
 // ============================================================================
 // FORMATAÇÃO DE DADOS
