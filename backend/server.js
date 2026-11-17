@@ -14,7 +14,9 @@ app.use("/api/filmes", filmeRoutes);
 
 // Rota de teste antiga
 app.get("/api/status", (req, res) => {
-  res.status(200).json({ mensagem: "API da Lista de Filmes está rodando!" });
+  res
+    .status(200)
+    .json({ status: true, mensagem: "Servidor de lista de filme rodando!" });
 });
 
 app.listen(PORT, () => {

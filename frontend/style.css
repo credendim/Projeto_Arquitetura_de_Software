@@ -83,11 +83,17 @@ section {
   .movieContainer {
     grid-template-columns: repeat(3, 1fr);
   }
+  .movieModal[open] {
+    width: 70%;
+  }
 }
 
 @media (max-width: 480px) {
   .movieContainer {
     grid-template-columns: repeat(2, 1fr);
+  }
+  .movieModal[open] {
+    width: 70%;
   }
 }
 

@@ -352,6 +352,7 @@ figcaption {
   padding: 22px;
   border: none;
   font-size: 1.1rem;
+  overflow: hidden;
   box-shadow:
     0px 1px 2px 0px rgba(0, 0, 0, 0.3),
     0px 2px 6px 2px rgba(0, 0, 0, 0.15);
@@ -425,7 +426,7 @@ aside {
 /* ---------- Responsivo ---------- */
 @media (max-width: 1000px) {
   .movieHeader {
-    --poster-overlap: 70px; /* quanto da capa sobe sobre o banner */
+    --poster-overlap: 70px;
   }
 
   .movieBackground {
@@ -477,6 +478,7 @@ aside {
 
   .userInteraction {
     order: 2;
+    width: 100%;
   }
 
   .indicationContainer {
@@ -513,7 +515,11 @@ aside {
 /* Celulares */
 @media (max-width: 600px) {
   h1 {
-    font-size: 1.6rem;
+    font-size: 1.3rem;
+  }
+
+  .movieBanner {
+    aspect-ratio: 2 / 1;
   }
 
   .movieInfo {
@@ -531,6 +537,10 @@ aside {
     justify-content: center;
   }
 
+  .movieHeader {
+    --poster-overlap: 35%;
+  }
+
   .moviePoster {
     border-radius: 20px;
     max-width: 150px;
@@ -538,6 +548,14 @@ aside {
 
   .actorImg {
     width: 110px;
+  }
+}
+
+@media (max-width: 550px) {
+  .indicationContainer {
+    flex-direction: column;
+    gap: 2rem;
+    margin-bottom: 1rem;
   }
 }
 

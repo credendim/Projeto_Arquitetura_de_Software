@@ -415,7 +415,7 @@ function criarTituloDestacado(titulo, busca) {
   return span;
 }
 
-const API_URL = "http://localhost:3000/api/filmes";
+const API_URL = "http://192.168.0.200:3000/api/filmes";
 
 // Todos os filmes carregados: é a fonte da verdade para montar as seções
 let todosFilmes = [];

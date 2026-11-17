@@ -189,7 +189,7 @@ function renderizarInformações(filme) {
   revenueContainer.style.display = filme.receita ? "" : "none";
 }
 
-const API_URL = "http://localhost:3000/api/filmes";
+const API_URL = "http://192.168.0.200:3000/api/filmes";
 
 function esconderLoader() {
   const loader = document.getElementById("loader");
@@ -508,9 +508,15 @@ const campoComentario = document.getElementById("comentario");
 const botaoConfirmar = document.getElementById("botaoConfirmar");
 let salvandoComentario = false;
 
-// .value é a forma certa de preencher um textarea pelo JS
+campoComentario.addEventListener("input", () => {
+  campoComentario.style.height = "auto";
+  campoComentario.style.height = `${campoComentario.scrollHeight}px`;
+});
+
 function renderizarComentario(filme) {
   campoComentario.value = filme.comentario || "";
+  campoComentario.style.height = "auto";
+  campoComentario.style.height = `${campoComentario.scrollHeight}px`;
 }
 
 async function salvarComentario() {
